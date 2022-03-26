@@ -1,17 +1,28 @@
 import React from 'react'
-import { Button, Form, Input, Typography } from 'antd'
+import { Button, Form, Input, Typography, notification } from 'antd'
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 import styles from './styles.module.scss'
-import { DefaultLayout } from 'Layouts/DefaultLayout'
-import { Link } from 'react-router-dom'
+import { DefaultLayout } from 'layouts/DefaultLayout'
+import { loginThunk } from '../../store/reducers/landingReducer/landingThunks'
+import { useAppSelector } from '../../hooks/useAppSelector'
 
 export const Login: React.FC = () => {
-	const onFinish = (values: any) => {
-		console.log('Success:', values)
-	}
+	const dispatch = useDispatch()
+	const authError = useAppSelector(state => state.landing.authError)
 
-	const onFinishFailed = (errorInfo: any) => {
-		console.log('Failed:', errorInfo)
+	const onFinish = (values: any) => {
+		dispatch(loginThunk(values))
+
+		if (authError) {
+			notification.error({
+				placement: 'top',
+				message: 'Ошибка!',
+				description: 'Проверьте введённые данные',
+				duration: 1.5
+			})
+		}
 	}
 
 	return (
@@ -19,7 +30,6 @@ export const Login: React.FC = () => {
 			<Form
 				name='basic'
 				onFinish={onFinish}
-				onFinishFailed={onFinishFailed}
 				autoComplete='off'
 				style={{ width: '100%' }}
 			>

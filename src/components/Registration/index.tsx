@@ -1,17 +1,48 @@
 import React from 'react'
-import { Button, Form, Input, Typography } from 'antd'
+import { Button, Form, Input, notification, Typography } from 'antd'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 
 import styles from './styles.module.scss'
-import { DefaultLayout } from 'Layouts/DefaultLayout'
-import { Link } from 'react-router-dom'
+import { DefaultLayout } from 'layouts/DefaultLayout'
+import { useAppSelector } from 'hooks/useAppSelector'
+import { registrationThunk } from '../../store/reducers/landingReducer/landingThunks'
 
 export const Registration: React.FC = () => {
-	const onFinish = (values: any) => {
-		console.log('Success:', values)
-	}
+	const navigate = useNavigate()
 
-	const onFinishFailed = (errorInfo: any) => {
-		console.log('Failed:', errorInfo)
+	const dispatch = useDispatch()
+	const registrationError = useAppSelector(
+		state => state.landing.registrationError
+	)
+
+	const onFinish = (values: any) => {
+		const user = {
+			login: values.name,
+			email: values.email,
+			password: values.password
+		}
+		dispatch(registrationThunk(user))
+
+		setTimeout(() => {
+			if (registrationError === 'success') {
+				notification.success({
+					placement: 'top',
+					message: 'Успешно!',
+					description: 'Регистрация прошла успешно!',
+					duration: 1
+				})
+				return navigate('/login')
+			}
+			if (registrationError) {
+				notification.error({
+					placement: 'top',
+					message: 'Ошибка!',
+					description: 'Проверьте введённые данные',
+					duration: 1.5
+				})
+			}
+		}, 400)
 	}
 
 	return (
@@ -19,7 +50,6 @@ export const Registration: React.FC = () => {
 			<Form
 				name='basic'
 				onFinish={onFinish}
-				onFinishFailed={onFinishFailed}
 				autoComplete='off'
 				style={{ width: '100%' }}
 			>

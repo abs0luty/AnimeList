@@ -1,20 +1,15 @@
-import jwt from 'jsonwebtoken'
-
 import { api } from 'api'
 import { Anime, AnimeProperties } from './types'
 
 export const anime = {
-	async get() {
-		const tokenData: any = jwt.decode(api.token)
-		return await api.get<Anime[]>(`/anime/${tokenData.id}`)
+	async get(userId: string) {
+		return await api.get<Anime[]>(`/anime/${userId}`)
 	},
-	async create(anime: Anime) {
-		const tokenData: any = jwt.decode(api.token)
-
+	async create(anime: Anime, userId: string) {
 		const newAnime: Anime = {
 			name: anime.name,
 			status: anime.status,
-			userId: tokenData.id
+			userId
 		}
 
 		return await api.post<Anime, Anime>('/anime', newAnime)

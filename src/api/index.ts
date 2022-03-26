@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { API_URI } from 'dotenv'
 import { auth } from './myApi/auth'
 import { anime } from './myApi/anime'
+import { anilibria } from './anilibriaApi'
 
 export const api = {
 	token: '',
@@ -26,7 +27,7 @@ export const api = {
 				}
 			}
 		)
-		return response
+		return response.data
 	},
 	async put<T, B>(path: string, data: T) {
 		const response = await axios.put<T, AxiosResponse<B>>(API_URI + path, {
@@ -34,7 +35,7 @@ export const api = {
 				Authorization: `Bearer ${this.token}`
 			}
 		})
-		return response
+		return response.data
 	},
 	async delete<T>(path: string) {
 		const response = await axios.delete<T>(API_URI + path, {
@@ -42,10 +43,11 @@ export const api = {
 				Authorization: `Bearer ${this.token}`
 			}
 		})
-		return response
+		return response.data
 	}
 }
 export const myApi = {
 	auth,
 	anime
 }
+export const anilibriaApi = anilibria

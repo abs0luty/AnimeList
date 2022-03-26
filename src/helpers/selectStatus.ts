@@ -7,7 +7,9 @@ import {
 } from '@ant-design/icons'
 import { FC } from 'react'
 
-export const selectStatus = (status: number) => {
+import { Status } from 'api/myApi/anime/types'
+
+export const selectStatus = (status: Status) => {
 	if (status === 0) return 'Просмотренно'
 	if (status === 1) return 'Смотрю'
 	if (status === 2) return 'Запланированно'
@@ -15,7 +17,7 @@ export const selectStatus = (status: number) => {
 	if (status === 4) return 'Заброшено'
 }
 
-export const selectStatusColor = (status: number) => {
+export const selectStatusColor = (status: Status) => {
 	if (status === 0) return 'green'
 	if (status === 1) return 'cyan'
 	if (status === 2) return 'volcano'
@@ -23,7 +25,7 @@ export const selectStatusColor = (status: number) => {
 	if (status === 4) return 'red'
 }
 
-export const selectStatusIcon = (status: number): FC => {
+export const selectStatusIcon = (status: Status): FC => {
 	if (status === 0) {
 		return CheckCircleOutlined
 	}

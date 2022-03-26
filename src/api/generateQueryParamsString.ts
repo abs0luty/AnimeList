@@ -13,5 +13,6 @@ export const generateQueryParamsString = (queryParamsObject: QueryObject) => {
 		queryString.set(key, stringQueryParamsObject[key].join(','))
 	}
 	return `${
-		queryString.toString().length > 0 ? '?' : ''}${queryString.toString()}`
+		queryString.toString().length > 0 ? '?' : ''
+	}${queryString.toString()}`
 }

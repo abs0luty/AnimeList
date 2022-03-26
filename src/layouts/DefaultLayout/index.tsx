@@ -29,9 +29,7 @@ export const DefaultLayout: FC<DefaultLayoutProps> = ({ children }) => {
 						background: `url("${wallpaper1}") 0 100%/ 320px 420px no-repeat`
 					}}
 				>
-					<div className={styles.content}>
-						{children}
-					</div>
+					<div className={styles.content}>{children}</div>
 				</div>
 			</div>
 		</div>

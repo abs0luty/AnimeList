@@ -1,16 +1,26 @@
 import { FC } from 'react'
 import classnames from 'classnames'
+import { useDispatch } from 'react-redux'
 
 import styles from './styles.module.scss'
 import menuWallpaper from 'assets/images/hamburgerMenuWallpaper.png'
 import { routes } from 'components/Router/routes'
 import { useToggle } from 'hooks/useToggle'
 import { Link } from 'react-router-dom'
+import { useAppSelector } from 'hooks/useAppSelector'
+import { logout } from 'store/reducers/landingReducer'
 
 const { other: otherRoutes } = routes
 
 export const Hamburger: FC = () => {
 	const { value: opened, setValue: setOpened } = useToggle()
+
+	const dispatch = useDispatch()
+	const login = useAppSelector(state => state.user.login)
+
+	const onClickLogout = () => {
+		dispatch(logout())
+	}
 
 	const closeButton = (
 		<div
@@ -49,7 +59,7 @@ export const Hamburger: FC = () => {
 				>
 					<div className={styles.menu}>
 						<div className={styles.closeButtonInMenu}>{closeButton}</div>
-						<h2 className={styles.menuTitle}>Averito</h2>
+						<h2 className={styles.menuTitle}>{login || 'Не авторизован'}</h2>
 						<ul className={styles.menuOptions}>
 							{otherRoutes
 								.filter(route => route.type === 'another')
@@ -71,7 +81,7 @@ export const Hamburger: FC = () => {
 										<Link to={route.route}>{route.name}</Link>
 									</li>
 								))}
-							<li>Выйти</li>
+							<li onClick={onClickLogout}>Выйти</li>
 						</ul>
 					</div>
 				</div>
