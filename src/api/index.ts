@@ -1,0 +1,51 @@
+import axios, { AxiosResponse } from 'axios'
+import { API_URI } from 'dotenv'
+import { auth } from './myApi/auth'
+import { anime } from './myApi/anime'
+
+export const api = {
+	token: '',
+	setUserToken(newToken: string) {
+		this.token = newToken
+	},
+	async get<T>(path: string) {
+		const response = await axios.get<T>(API_URI + path, {
+			headers: {
+				Authorization: `Bearer ${this.token}`
+			}
+		})
+		return response.data
+	},
+	async post<T, B>(path: string, data: T) {
+		const response = await axios.post<T, AxiosResponse<B>>(
+			API_URI + path,
+			data,
+			{
+				headers: {
+					Authorization: `Bearer ${this.token}`
+				}
+			}
+		)
+		return response
+	},
+	async put<T, B>(path: string, data: T) {
+		const response = await axios.put<T, AxiosResponse<B>>(API_URI + path, {
+			headers: {
+				Authorization: `Bearer ${this.token}`
+			}
+		})
+		return response
+	},
+	async delete<T>(path: string) {
+		const response = await axios.delete<T>(API_URI + path, {
+			headers: {
+				Authorization: `Bearer ${this.token}`
+			}
+		})
+		return response
+	}
+}
+export const myApi = {
+	auth,
+	anime
+}
