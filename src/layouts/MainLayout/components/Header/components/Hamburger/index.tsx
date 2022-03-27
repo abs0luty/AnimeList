@@ -6,12 +6,10 @@ import styles from './styles.module.scss'
 import menuWallpaper from 'assets/images/hamburgerMenuWallpaper.png'
 import { routes } from 'components/Router/routes'
 import { useToggle } from 'hooks/useToggle'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useAppSelector } from 'hooks/useAppSelector'
 import { logout, setRandomTitle } from 'store/reducers/landingReducer'
 import { decodeAnimeName } from 'helpers/decodeAnimeName'
-
-const { other: otherRoutes } = routes
 
 export const Hamburger: FC = () => {
 	const { value: opened, setValue: setOpened } = useToggle()
@@ -22,10 +20,12 @@ export const Hamburger: FC = () => {
 
 	const onClickLogout = () => {
 		dispatch(logout())
+		setOpened()
 	}
 
 	const onClickRandomAnime = () => {
 		dispatch(setRandomTitle())
+		setOpened()
 	}
 
 	const randomAnimeName = decodeAnimeName(randomTitle?.names?.en)
@@ -69,28 +69,18 @@ export const Hamburger: FC = () => {
 						<div className={styles.closeButtonInMenu}>{closeButton}</div>
 						<h2 className={styles.menuTitle}>{login || 'Не авторизован'}</h2>
 						<ul className={styles.menuOptions}>
-							{otherRoutes
+							{routes
 								.filter(route => route.type === 'another')
 								.map(route => (
-									<li key={route.key}>
-										<Link to={route.route}>{route.name}</Link>
+									<li key={route.key} onClick={setOpened}>
+										<NavLink to={route.route}>{route.name}</NavLink>
 									</li>
 								))}
 							<li onClick={onClickRandomAnime}>
-								<Link to={`/anime-library/${randomAnimeName}`}>
+								<NavLink to={`/titles/${randomAnimeName}`}>
 									Рандомный тайтл
-								</Link>
+								</NavLink>
 							</li>
-							{otherRoutes
-								.filter(
-									route =>
-										route.type === 'login' || route.type === 'registration'
-								)
-								.map(route => (
-									<li key={route.key}>
-										<Link to={route.route}>{route.name}</Link>
-									</li>
-								))}
 							<li onClick={onClickLogout}>Выйти</li>
 						</ul>
 					</div>

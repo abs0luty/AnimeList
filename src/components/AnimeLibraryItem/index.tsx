@@ -28,7 +28,7 @@ export const AnimeLibraryItem: FC<AnimeLibraryItemProps> = ({ title }) => {
 		>
 			<div className={styles.animeLibraryItemContainer}>
 				<Typography.Title level={4}>
-					<NavLink to={`/anime-library/${animeName}`}>
+					<NavLink to={`/titles/${animeName}`}>
 						{title.names.ru || title.names.en}
 					</NavLink>
 				</Typography.Title>

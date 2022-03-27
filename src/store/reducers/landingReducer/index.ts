@@ -9,7 +9,7 @@ import {
 	authCheckThunk,
 	getUpdatesThunk
 } from './landingThunks'
-import { errorMessage, successMessage } from 'helpers/messages'
+import { errorMessage, successMessage, warningMessage } from 'helpers/messages'
 
 const landingSlice = createSlice({
 	name: 'landing',
@@ -46,13 +46,16 @@ const landingSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(loginThunk.fulfilled, (state, { payload }) => {
-				successMessage('Успешный логин!')
+				successMessage('Ну всё, теперь твои данные у меня')
 				api.setUserToken(payload.access_token)
 				localStorage.setItem('token', payload.access_token)
 				state.isAuth = true
 			})
+			.addCase(loginThunk.pending, state => {
+				warningMessage('Ворую данные... 👀')
+			})
 			.addCase(loginThunk.rejected, state => {
-				errorMessage('Проверьте введённые данные!')
+				errorMessage('Это не те данные, подумай ещё')
 			})
 			.addCase(registrationThunk.fulfilled, state => {
 				state.registrationComplete = true

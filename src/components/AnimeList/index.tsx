@@ -17,11 +17,12 @@ import { useAppSelector } from 'hooks/useAppSelector'
 import { setAutoCompleteOption } from 'store/reducers/landingReducer'
 import { sortOptionsForAutocomplete } from 'helpers/sortOptionsForAutoComplete'
 import { Anime } from 'api/myApi/anime/types'
+import { useInputValue } from 'hooks/useInputValue'
 
 export const AnimeList: FC = () => {
 	const { width } = useWindowSize()
 
-	const [name, setName] = useState<string>('')
+	const { value: name, setValue: setName } = useInputValue('')
 	const [selectedAnime, setSelectedAnime] = useState<string[]>([])
 
 	const dispatch = useDispatch()
@@ -36,8 +37,8 @@ export const AnimeList: FC = () => {
 	const prevent = (event: ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault()
 	}
-	const onChangeName = (value: string) => {
-		setName(value)
+	const onChangeName = (name: string) => {
+		setName(name)
 	}
 	const onSearchName = (value: string) => {
 		dispatch(
@@ -45,9 +46,6 @@ export const AnimeList: FC = () => {
 				sortOptionsForAutocomplete(titleList, animeList, value)
 			)
 		)
-	}
-	const deleteDataFromInput = () => {
-		setName(prev => (prev = ''))
 	}
 	const onClickCreateAnime: any = async (event: any, animeName = name) => {
 		if (!(event.key === 'Enter' || event.key === undefined)) return
@@ -61,13 +59,13 @@ export const AnimeList: FC = () => {
 		}
 
 		dispatch(createAnimeThunk({ anime: newAnime, userId }))
-		deleteDataFromInput()
 
 		dispatch(
 			setAutoCompleteOption(
-				sortOptionsForAutocomplete(titleList, [...animeList], name) // todo: Что-то придумать с поиском
+				sortOptionsForAutocomplete(titleList, animeList, name)
 			)
 		)
+		setName('')
 		successMessage('Аниме успешно записано')
 	}
 	const onSelectName = (name: string) => {

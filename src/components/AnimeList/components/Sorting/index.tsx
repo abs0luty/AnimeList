@@ -75,10 +75,7 @@ export const Sorting: FC<SortingProps> = ({ setSelectedAnime }) => {
 				</Row>
 			)}
 			<div>
-				<Table
-					sortedAnimeList={animeListSort}
-					setSelectedAnime={setSelectedAnime}
-				/>
+				<Table setSelectedAnime={setSelectedAnime} />
 			</div>
 		</div>
 	)

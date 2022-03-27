@@ -1,11 +1,11 @@
 import React from 'react'
 
-type TypeRoute = 'login' | 'registration' | 'another' | 'rememberPassword'
-
-interface MainRoute {
-	key: string
-	route: string
-}
+type TypeRoute =
+	| 'login'
+	| 'registration'
+	| 'another'
+	| 'rememberPassword'
+	| 'children'
 
 interface Route {
 	name: string
@@ -16,7 +16,4 @@ interface Route {
 	children?: Route
 }
 
-export interface Routes {
-	main: MainRoute
-	other: Route[]
-}
+export type Routes = Route[]

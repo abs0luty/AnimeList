@@ -11,15 +11,13 @@ import { useAppSelector } from 'hooks/useAppSelector'
 import { logout, setRandomTitle } from 'store/reducers/landingReducer'
 import { decodeAnimeName } from 'helpers/decodeAnimeName'
 
-const { other: otherRoutes } = routes
-
 export const Header: FC = () => {
 	const { width } = useWindowSize()
 	const isMobile = width <= 768
 
 	const dispatch = useDispatch()
 	const login = useAppSelector(state => state.user.login)
-	const randomTitle = useAppSelector(state => state.landing.randomTitle)
+	const { randomTitle, isAuth } = useAppSelector(state => state.landing)
 
 	const onClickLogout = () => {
 		dispatch(logout())
@@ -31,15 +29,6 @@ export const Header: FC = () => {
 
 	const Account = (
 		<Menu>
-			{otherRoutes
-				.filter(
-					route => route.type === 'login' || route.type === 'registration'
-				)
-				.map(route => (
-					<Menu.Item key={route.key}>
-						<Link to={route.route}>{route.name}</Link>
-					</Menu.Item>
-				))}
 			<Menu.Item key='logout' onClick={onClickLogout}>
 				Выйти
 			</Menu.Item>
@@ -61,7 +50,7 @@ export const Header: FC = () => {
 				<>
 					<div className={styles.headerItem2}>
 						<Menu mode='horizontal' theme='dark'>
-							{otherRoutes
+							{routes
 								.filter(route => route.type === 'another')
 								.map(route => (
 									<Menu.Item key={route.key}>
@@ -69,15 +58,17 @@ export const Header: FC = () => {
 									</Menu.Item>
 								))}
 							<Menu.Item key='random-title' onClick={onClickRandomAnime}>
-								<Link to={`/anime-library/${randomAnimeName}`}>
-									Рандомный тайтл
-								</Link>
+								<Link to={`/titles/${randomAnimeName}`}>Рандомный тайтл</Link>
 							</Menu.Item>
 						</Menu>
 					</div>
-					<Dropdown overlay={Account}>
-						<p className={styles.accountButton}>{login || 'Не авторизован'}</p>
-					</Dropdown>
+					{isAuth ? (
+						<Dropdown overlay={Account}>
+							<p className={styles.accountButton}>{login}</p>
+						</Dropdown>
+					) : (
+						<p className={styles.accountButton}>'Не авторизован</p>
+					)}
 				</>
 			)}
 		</header>

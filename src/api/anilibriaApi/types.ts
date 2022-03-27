@@ -37,26 +37,42 @@ export interface Title {
 		ru: string
 		en: string
 	}
+	announce: string
 	series: string
 	posters: {
 		original: {
 			url: string
 		}
-		mini: {
+		small: {
 			url: string
 		}
+	}
+	season: {
+		string: string
+		year: string
 	}
 	favorite: ChosenOne
 	last: number
 	moon: string
-	status: string
-	type: string
+	status: {
+		string: string
+	}
+	type: {
+		full_string: string
+	}
+	last_changes: string
+	team: {
+		voice: string[]
+		timing: string[]
+		translator: string[]
+		editing: string[]
+		decor: string[]
+	}
 	genres: string[]
-	voices: string[]
 	year: number
 	day: number
 	description: string
-	blockedInfo: Block
+	blocked: Block
 	playlist?: Series[]
 	torrents?: Torrent[]
 }

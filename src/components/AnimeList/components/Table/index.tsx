@@ -20,17 +20,14 @@ const statuses = [0, 1, 2, 3, 4]
 
 interface TableProps {
 	setSelectedAnime: any
-	sortedAnimeList: Anime[]
 }
 
-export const Table: FC<TableProps> = ({
-	setSelectedAnime,
-	sortedAnimeList
-}) => {
+export const Table: FC<TableProps> = ({ setSelectedAnime }) => {
 	const { md } = useBreakpoint()
 
 	const dispatch = useDispatch()
 	const titleList = useAppSelector(state => state.landing.titleList)
+	const { animeListSort: sortedAnimeList } = useAppSelector(state => state.user)
 
 	const onChangeStatus = async (value: string, anime: Anime) => {
 		const status = selectStatusToNumber(value)
@@ -67,7 +64,7 @@ export const Table: FC<TableProps> = ({
 				return (
 					<>
 						{titleList.some(title => title.names.ru === name) ? (
-							<NavLink to={`/anime-library/${animeName}`}>{name}</NavLink>
+							<NavLink to={`/titles/${animeName}`}>{name}</NavLink>
 						) : (
 							<span>{name}</span>
 						)}

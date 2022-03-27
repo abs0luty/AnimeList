@@ -2,54 +2,50 @@ import { Routes } from './types'
 import { Login } from 'components/Login'
 import { Registration } from 'components/Registration'
 import { RestorePassword } from 'components/RestorePassword'
+import { AnimePage } from 'components/AnimePage'
+import { AnimeList } from 'components/AnimeList'
 
-export const routes: Routes = {
-	main: {
-		key: 'main',
-		route: '/'
+export const routes: Routes = [
+	{
+		key: 'login',
+		name: 'Логин',
+		route: '/login',
+		type: 'login',
+		component: Login
 	},
-	other: [
-		{
-			key: 'login',
-			name: 'Логин',
-			route: '/login',
-			type: 'login',
-			component: Login
-		},
-		{
-			key: 'registration',
-			name: 'Регистрация',
-			route: '/registration',
-			type: 'registration',
-			component: Registration
-		},
-		{
-			key: 'rememberPassword',
-			name: 'Забыли пароль?',
-			route: '/restore-password',
-			type: 'rememberPassword',
-			component: RestorePassword
-		},
-		{
-			key: 'animelist',
-			name: 'Аниме список',
-			route: '/',
-			type: 'another',
-			component: Registration // todo: Anime List
-		},
-		{
-			key: 'animelibrary',
-			name: 'Библиотека',
-			route: '/anime-library',
-			type: 'another',
-			component: Registration, // todo: Anime Library,
-			children: {
-				name: 'title list',
-				key: 'titleList',
-				route: ':titleName',
-				type: 'another',
-				component: Registration // todo: Anime in AnimeLibrary
-			}
-		}
-	]
-}
+	{
+		key: 'registration',
+		name: 'Регистрация',
+		route: '/registration',
+		type: 'registration',
+		component: Registration
+	},
+	{
+		key: 'rememberPassword',
+		name: 'Забыли пароль?',
+		route: '/restore-password',
+		type: 'rememberPassword',
+		component: RestorePassword
+	},
+	{
+		key: 'animelist',
+		name: 'Аниме список',
+		route: '/',
+		type: 'another',
+		component: AnimeList
+	},
+	{
+		key: 'animelibrary',
+		name: 'Библиотека',
+		route: '/anime-library/',
+		type: 'another',
+		component: Registration // todo: Anime Library,
+	},
+	{
+		name: 'title list',
+		key: 'titleList',
+		route: 'titles/:titleName',
+		type: 'children',
+		component: AnimePage
+	}
+]

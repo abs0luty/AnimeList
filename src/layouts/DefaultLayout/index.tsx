@@ -3,7 +3,7 @@ import { FC, ReactElement } from 'react'
 import styles from './styles.module.scss'
 import wallpaper1 from 'assets/images/defaultLayout1.png'
 import wallpaper2 from 'assets/images/defaultLayout2.png'
-import { useWindowSize } from '../../hooks/useWindowSize'
+import { useWindowSize } from 'hooks/useWindowSize'
 
 interface DefaultLayoutProps {
 	children: ReactElement | ReactElement[]
@@ -12,6 +12,7 @@ interface DefaultLayoutProps {
 export const DefaultLayout: FC<DefaultLayoutProps> = ({ children }) => {
 	const { width } = useWindowSize()
 	const isMobile = width <= 768
+
 
 	return (
 		<div className={styles.wrapper}>
