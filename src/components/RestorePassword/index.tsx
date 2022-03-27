@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button, Form, Input, notification, Typography } from 'antd'
+import React, { useEffect } from 'react'
+import { Button, Form, Input, Typography } from 'antd'
 
 import styles from './styles.module.scss'
 import { DefaultLayout } from 'layouts/DefaultLayout'
@@ -12,8 +12,8 @@ export const RestorePassword: React.FC = () => {
 	const navigate = useNavigate()
 
 	const dispatch = useDispatch()
-	const forgotPasswordError = useAppSelector(
-		state => state.landing.forgotPasswordError
+	const forgotPasswordComplete = useAppSelector(
+		state => state.landing.forgotPasswordComplete
 	)
 
 	const onFinish = (values: any) => {
@@ -23,27 +23,11 @@ export const RestorePassword: React.FC = () => {
 			password: values.password
 		}
 		dispatch(forgotPasswordThunk(user))
-
-		setTimeout(() => {
-			if (forgotPasswordError === 'success') {
-				notification.success({
-					placement: 'top',
-					message: 'Успешно!',
-					description: 'Вы успешно восстановили пароль!',
-					duration: 1
-				})
-				return navigate('/login')
-			}
-			if (forgotPasswordError) {
-				notification.error({
-					placement: 'top',
-					message: 'Ошибка!',
-					description: 'Проверьте введённые данные',
-					duration: 1.5
-				})
-			}
-		}, 400)
 	}
+
+	useEffect(() => {
+		if (forgotPasswordComplete) navigate('/login')
+	}, [forgotPasswordComplete, navigate])
 
 	return (
 		<DefaultLayout>

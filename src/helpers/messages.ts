@@ -7,3 +7,7 @@ export const successMessage = (text: string) => {
 export const errorMessage = (text: string) => {
 	message.error(text)
 }
+
+export const warningMessage = (text: string) => {
+	message.warning(text)
+}

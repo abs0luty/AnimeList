@@ -35,8 +35,6 @@ export const Table: FC<TableProps> = ({
 	const onChangeStatus = async (value: string, anime: Anime) => {
 		const status = selectStatusToNumber(value)
 
-		console.log(status)
-
 		const animeOnEdit: Anime = {
 			name: anime.name,
 			userId: anime.userId,

@@ -8,6 +8,7 @@ import {
 	getUserThunk,
 	removeAnimeThunk
 } from './userThunks'
+import { errorMessage } from 'helpers/messages'
 
 const userSlice = createSlice({
 	name: 'user',
@@ -48,6 +49,9 @@ const userSlice = createSlice({
 				state.loading = true
 			})
 			.addCase(getAnimeListThunk.rejected, (state, { payload }) => {
+				errorMessage(
+					'Не удалось подключиться к серверу, попробуй перезагрузить страницу'
+				)
 				state.error = true
 			})
 			.addCase(getUserThunk.fulfilled, (state, { payload }) => {

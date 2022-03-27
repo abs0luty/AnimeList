@@ -9,6 +9,7 @@ import {
 	authCheckThunk,
 	getUpdatesThunk
 } from './landingThunks'
+import { errorMessage, successMessage } from 'helpers/messages'
 
 const landingSlice = createSlice({
 	name: 'landing',
@@ -19,9 +20,8 @@ const landingSlice = createSlice({
 		randomTitle: {} as Title,
 		autoCompleteOptions: [] as Array<{ value: string }>,
 		isAdult: false,
-		authError: false,
-		registrationError: false as true | 'success',
-		forgotPasswordError: false as true | 'success'
+		registrationComplete: false,
+		forgotPasswordComplete: false
 	},
 	reducers: {
 		setAdult(state, { payload }: PayloadAction<boolean>) {
@@ -46,38 +46,46 @@ const landingSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(loginThunk.fulfilled, (state, { payload }) => {
+				successMessage('Успешный логин!')
 				api.setUserToken(payload.access_token)
 				localStorage.setItem('token', payload.access_token)
-				state.authError = false
 				state.isAuth = true
 			})
 			.addCase(loginThunk.rejected, state => {
-				state.authError = true
+				errorMessage('Проверьте введённые данные!')
 			})
 			.addCase(registrationThunk.fulfilled, state => {
-				state.registrationError = 'success'
+				state.registrationComplete = true
 			})
 			.addCase(registrationThunk.rejected, state => {
-				state.registrationError = true
+				errorMessage('Такой пользователь уже существует!')
+				state.registrationComplete = false
 			})
 			.addCase(authCheckThunk.fulfilled, (state, { payload }) => {
 				state.userId = payload.id
 				state.isAuth = true
 			})
 			.addCase(authCheckThunk.rejected, state => {
+				errorMessage('Не авторизован')
 				localStorage.setItem('token', '')
 				state.isAuth = false
 			})
 			.addCase(forgotPasswordThunk.fulfilled, state => {
-				state.forgotPasswordError = 'success'
+				state.forgotPasswordComplete = true
 			})
 			.addCase(forgotPasswordThunk.rejected, state => {
-				state.forgotPasswordError = true
+				errorMessage('Проверьте введённые данные!')
+				state.forgotPasswordComplete = false
 			})
 			.addCase(getUpdatesThunk.fulfilled, (state, { payload }) => {
 				const randomIdx = Math.floor(Math.random() * state.titleList.length)
 				state.titleList = payload
 				state.randomTitle = payload[randomIdx]
+			})
+			.addCase(getUpdatesThunk.rejected, state => {
+				errorMessage(
+					'Не удалось подключиться к серверу анилибрии, попробуйте перезагрузить страницу'
+				)
 			})
 	}
 })

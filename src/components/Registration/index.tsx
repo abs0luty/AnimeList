@@ -1,19 +1,19 @@
-import React from 'react'
-import { Button, Form, Input, notification, Typography } from 'antd'
+import React, { useEffect } from 'react'
+import { Button, Form, Input, Typography } from 'antd'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
 import styles from './styles.module.scss'
 import { DefaultLayout } from 'layouts/DefaultLayout'
 import { useAppSelector } from 'hooks/useAppSelector'
-import { registrationThunk } from '../../store/reducers/landingReducer/landingThunks'
+import { registrationThunk } from 'store/reducers/landingReducer/landingThunks'
 
 export const Registration: React.FC = () => {
 	const navigate = useNavigate()
 
 	const dispatch = useDispatch()
-	const registrationError = useAppSelector(
-		state => state.landing.registrationError
+	const registrationComplete = useAppSelector(
+		state => state.landing.registrationComplete
 	)
 
 	const onFinish = (values: any) => {
@@ -23,27 +23,11 @@ export const Registration: React.FC = () => {
 			password: values.password
 		}
 		dispatch(registrationThunk(user))
-
-		setTimeout(() => {
-			if (registrationError === 'success') {
-				notification.success({
-					placement: 'top',
-					message: 'Успешно!',
-					description: 'Регистрация прошла успешно!',
-					duration: 1
-				})
-				return navigate('/login')
-			}
-			if (registrationError) {
-				notification.error({
-					placement: 'top',
-					message: 'Ошибка!',
-					description: 'Проверьте введённые данные',
-					duration: 1.5
-				})
-			}
-		}, 400)
 	}
+
+	useEffect(() => {
+		if (registrationComplete) navigate('/login')
+	}, [registrationComplete, navigate])
 
 	return (
 		<DefaultLayout>

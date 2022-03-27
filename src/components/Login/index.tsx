@@ -1,28 +1,17 @@
 import React from 'react'
-import { Button, Form, Input, Typography, notification } from 'antd'
+import { Button, Form, Input, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import styles from './styles.module.scss'
 import { DefaultLayout } from 'layouts/DefaultLayout'
 import { loginThunk } from '../../store/reducers/landingReducer/landingThunks'
-import { useAppSelector } from '../../hooks/useAppSelector'
 
 export const Login: React.FC = () => {
 	const dispatch = useDispatch()
-	const authError = useAppSelector(state => state.landing.authError)
 
 	const onFinish = (values: any) => {
 		dispatch(loginThunk(values))
-
-		if (authError) {
-			notification.error({
-				placement: 'top',
-				message: 'Ошибка!',
-				description: 'Проверьте введённые данные',
-				duration: 1.5
-			})
-		}
 	}
 
 	return (

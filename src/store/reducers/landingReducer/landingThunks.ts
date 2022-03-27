@@ -11,7 +11,7 @@ export const authCheckThunk = createAsyncThunk(
 	myApi.auth.authCheck
 )
 export const forgotPasswordThunk = createAsyncThunk(
-	'landing/forgotPassword',
+	'landing/forgotPasswordComplete',
 	myApi.auth.forgotPassword
 )
 export const getUpdatesThunk = createAsyncThunk(

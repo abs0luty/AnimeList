@@ -19,8 +19,6 @@ import { AnimeList } from 'components/AnimeList'
 export const App: React.FC = () => {
 	const dispatch = useDispatch()
 	const { isAuth, userId } = useAppSelector(state => state.landing)
-	const user = useAppSelector(state => state.user)
-	console.log(user)
 
 	useEffect(() => {
 		const token = localStorage.getItem('token')
@@ -28,7 +26,7 @@ export const App: React.FC = () => {
 			api.setUserToken(token)
 			dispatch(authCheckThunk(token))
 		}
-		if (isAuth) {
+		if (isAuth && userId) {
 			dispatch(getUserThunk(userId))
 			dispatch(getAnimeListThunk(userId))
 			dispatch(getUpdatesThunk(objectParamsByDefault))

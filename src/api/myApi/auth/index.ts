@@ -19,7 +19,7 @@ export const auth = {
 		)
 		return response.data
 	},
-	async authCheck(token: string) {
+	async authCheck(token: string | null) {
 		return await api.get<Token>('/auth-check')
 	},
 	async forgotPassword(user: UserProperties) {

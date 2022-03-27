@@ -23,7 +23,6 @@ export const AnimeList: FC = () => {
 
 	const [name, setName] = useState<string>('')
 	const [selectedAnime, setSelectedAnime] = useState<string[]>([])
-	console.log(selectedAnime)
 
 	const dispatch = useDispatch()
 	const { loading: loaded } = useAppSelector(state => state.user)
