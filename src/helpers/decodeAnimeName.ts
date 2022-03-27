@@ -1,7 +1,7 @@
-export const encodeAnimeName = (name: string) => {
+export const decodeAnimeName = (name: string) => {
 	return name
-		?.replaceAll('(', 'скобка')
-		?.replaceAll(')', 'скобка2')
-		?.replaceAll('?', 'вопрос')
-		?.replaceAll('%', 'процент')
+		?.replaceAll('(', 'bracket')
+		?.replaceAll(')', 'bracket2')
+		?.replaceAll('?', 'question')
+		?.replaceAll('%', 'precentage')
 }

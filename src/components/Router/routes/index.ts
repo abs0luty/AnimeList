@@ -42,7 +42,14 @@ export const routes: Routes = {
 			name: 'Библиотека',
 			route: '/anime-library',
 			type: 'another',
-			component: Registration // todo: Anime Library
+			component: Registration, // todo: Anime Library,
+			children: {
+				name: 'title list',
+				key: 'titleList',
+				route: ':titleName',
+				type: 'another',
+				component: Registration // todo: Anime in AnimeLibrary
+			}
 		}
 	]
 }

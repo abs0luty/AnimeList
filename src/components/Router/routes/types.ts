@@ -13,6 +13,13 @@ interface Route {
 	type: TypeRoute
 	route: string
 	component: React.FC<any>
+	children?: {
+		name: string
+		key: string
+		type: TypeRoute
+		route: string
+		component: React.FC<any>
+	}
 }
 
 export interface Routes {

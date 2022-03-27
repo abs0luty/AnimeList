@@ -8,7 +8,8 @@ import { routes } from 'components/Router/routes'
 import { useToggle } from 'hooks/useToggle'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from 'hooks/useAppSelector'
-import { logout } from 'store/reducers/landingReducer'
+import { logout, setRandomTitle } from 'store/reducers/landingReducer'
+import { decodeAnimeName } from 'helpers/decodeAnimeName'
 
 const { other: otherRoutes } = routes
 
@@ -17,10 +18,17 @@ export const Hamburger: FC = () => {
 
 	const dispatch = useDispatch()
 	const login = useAppSelector(state => state.user.login)
+	const randomTitle = useAppSelector(state => state.landing.randomTitle)
 
 	const onClickLogout = () => {
 		dispatch(logout())
 	}
+
+	const onClickRandomAnime = () => {
+		dispatch(setRandomTitle())
+	}
+
+	const randomAnimeName = decodeAnimeName(randomTitle?.names?.en)
 
 	const closeButton = (
 		<div
@@ -68,8 +76,10 @@ export const Hamburger: FC = () => {
 										<Link to={route.route}>{route.name}</Link>
 									</li>
 								))}
-							<li>
-								<Link to='/'>Рандомный тайтл</Link>
+							<li onClick={onClickRandomAnime}>
+								<Link to={`/anime-library/${randomAnimeName}`}>
+									Рандомный тайтл
+								</Link>
 							</li>
 							{otherRoutes
 								.filter(

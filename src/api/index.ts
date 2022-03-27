@@ -30,11 +30,15 @@ export const api = {
 		return response.data
 	},
 	async put<T, B>(path: string, data: T) {
-		const response = await axios.put<T, AxiosResponse<B>>(API_URI + path, {
-			headers: {
-				Authorization: `Bearer ${this.token}`
+		const response = await axios.put<T, AxiosResponse<B>>(
+			API_URI + path,
+			data,
+			{
+				headers: {
+					Authorization: `Bearer ${this.token}`
+				}
 			}
-		})
+		)
 		return response.data
 	},
 	async delete<T>(path: string) {

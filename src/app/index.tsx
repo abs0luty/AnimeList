@@ -3,17 +3,24 @@ import { useDispatch } from 'react-redux'
 
 import { Router } from 'components/Router'
 import { MainLayout } from 'layouts/MainLayout'
-import { authCheckThunk } from '../store/reducers/landingReducer/landingThunks'
+import {
+	authCheckThunk,
+	getUpdatesThunk
+} from 'store/reducers/landingReducer/landingThunks'
 import { api } from 'api'
-import { useAppSelector } from '../hooks/useAppSelector'
+import { useAppSelector } from 'hooks/useAppSelector'
 import {
 	getAnimeListThunk,
 	getUserThunk
-} from '../store/reducers/userReducer/userThunks'
+} from 'store/reducers/userReducer/userThunks'
+import { objectParamsByDefault } from 'api/anilibriaApi'
+import { AnimeList } from 'components/AnimeList'
 
 export const App: React.FC = () => {
 	const dispatch = useDispatch()
 	const { isAuth, userId } = useAppSelector(state => state.landing)
+	const user = useAppSelector(state => state.user)
+	console.log(user)
 
 	useEffect(() => {
 		const token = localStorage.getItem('token')
@@ -24,15 +31,14 @@ export const App: React.FC = () => {
 		if (isAuth) {
 			dispatch(getUserThunk(userId))
 			dispatch(getAnimeListThunk(userId))
-			// todo: getTitles
+			dispatch(getUpdatesThunk(objectParamsByDefault))
 		}
 	}, [dispatch, isAuth, userId])
 
 	return (
 		<Router>
 			<MainLayout>
-				<p>Hello!</p>
-				<p>Hello 2x</p>
+				<AnimeList />
 			</MainLayout>
 		</Router>
 	)

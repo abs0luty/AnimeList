@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Anime, Status } from 'api/myApi/anime/types'
-import { getAnimeListThunk, getUserThunk } from './userThunks'
+import { Anime } from 'api/myApi/anime/types'
+import {
+	createAnimeThunk,
+	editStatusAnimeThunk,
+	getAnimeListThunk,
+	getUserThunk,
+	removeAnimeThunk
+} from './userThunks'
 
 const userSlice = createSlice({
 	name: 'user',
@@ -11,37 +17,23 @@ const userSlice = createSlice({
 		email: '',
 		password: '',
 		animeList: [] as Anime[],
+		animeListSort: [] as Anime[],
 		loading: false,
 		error: false
 	},
 	reducers: {
-		setName(state, { payload }: PayloadAction<string>) {
-			state.login = payload
-		},
-		setEmail(state, { payload }: PayloadAction<string>) {
-			state.email = payload
-		},
-		setPassword(state, { payload }: PayloadAction<string>) {
-			state.password = payload
-		},
-		addToAnimeList(state, { payload }: PayloadAction<Anime>) {
-			state.animeList = [...state.animeList, payload]
-		},
-		removeFromAnimeList(state, { payload }: PayloadAction<string>) {
-			state.animeList = state.animeList.filter(anime => anime._id !== payload)
-		},
-		editAnimeStatus(
+		sortAnimeList(
 			state,
-			{ payload }: PayloadAction<{ animeId: string; status: Status }>
+			{ payload }: PayloadAction<{ search: string; statusFilter: string }>
 		) {
-			const animeListCopy: Anime[] = JSON.parse(JSON.stringify(state.animeList))
-
-			const [animeForEdit] = animeListCopy.filter(
-				anime => anime._id === payload.animeId
-			)
-			animeForEdit.status = payload.status
-
-			state.animeList = animeListCopy
+			const { search, statusFilter } = payload
+			state.animeListSort = state.animeList
+				.filter(anime => anime?.name?.includes(search))
+				.filter(anime =>
+					statusFilter !== '-1'
+						? anime?.status?.toString()?.includes(statusFilter.toString())
+						: true
+				)
 		}
 	},
 	extraReducers: builder => {
@@ -50,6 +42,7 @@ const userSlice = createSlice({
 				state.error = false
 				state.loading = false
 				state.animeList = payload
+				state.animeListSort = payload
 			})
 			.addCase(getAnimeListThunk.pending, (state, { payload }) => {
 				state.loading = true
@@ -63,15 +56,40 @@ const userSlice = createSlice({
 				state.password = payload.password
 				state.id = payload._id as string
 			})
+			.addCase(createAnimeThunk.fulfilled, (state, { payload }) => {
+				state.animeList = [...state.animeList, payload]
+				state.animeListSort = [...state.animeListSort, payload]
+			})
+			.addCase(editStatusAnimeThunk.fulfilled, (state, { payload }) => {
+				// -- animeList --
+				const newAnimeList = JSON.parse(JSON.stringify(state.animeList))
+
+				const animeForEditIndex = state.animeList.findIndex(
+					anime => anime._id === payload.id
+				)
+				newAnimeList[animeForEditIndex].status = payload.anime.status
+
+				state.animeList = newAnimeList
+				// -- animeListSort --
+				const newAnimeListSort = JSON.parse(JSON.stringify(state.animeListSort))
+
+				const animeSortForEditIndex = state.animeList.findIndex(
+					anime => anime._id === payload.id
+				)
+				newAnimeListSort[animeSortForEditIndex].status = payload.anime.status
+
+				state.animeListSort = newAnimeListSort
+			})
+			.addCase(removeAnimeThunk.fulfilled, (state, { payload }) => {
+				state.animeList = state.animeList.filter(
+					anime => anime._id !== payload._id
+				)
+				state.animeListSort = state.animeListSort.filter(
+					anime => anime._id !== payload._id
+				)
+			})
 	}
 })
 
 export const { reducer: userReducer } = userSlice
-export const {
-	setName,
-	setEmail,
-	setPassword,
-	addToAnimeList,
-	removeFromAnimeList,
-	editAnimeStatus
-} = userSlice.actions
+export const { sortAnimeList } = userSlice.actions

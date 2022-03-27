@@ -17,6 +17,15 @@ export const selectStatus = (status: Status) => {
 	if (status === 4) return 'Заброшено'
 }
 
+export const selectStatusToNumber = (status: string): Status => {
+	if (status === 'Просмотренно') return 0
+	if (status === 'Смотрю') return 1
+	if (status === 'Запланированно') return 2
+	if (status === 'Выходит') return 3
+	if (status === 'Заброшено') return 4
+	return 0
+}
+
 export const selectStatusColor = (status: Status) => {
 	if (status === 0) return 'green'
 	if (status === 1) return 'cyan'

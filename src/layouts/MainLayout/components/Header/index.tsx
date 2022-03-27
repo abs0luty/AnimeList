@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Typography, Dropdown, Menu } from 'antd'
+import { Dropdown, Menu, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
@@ -8,7 +8,8 @@ import { Hamburger } from './components/Hamburger'
 import { routes } from 'components/Router/routes'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { useAppSelector } from 'hooks/useAppSelector'
-import { logout } from 'store/reducers/landingReducer'
+import { logout, setRandomTitle } from 'store/reducers/landingReducer'
+import { decodeAnimeName } from 'helpers/decodeAnimeName'
 
 const { other: otherRoutes } = routes
 
@@ -18,9 +19,14 @@ export const Header: FC = () => {
 
 	const dispatch = useDispatch()
 	const login = useAppSelector(state => state.user.login)
+	const randomTitle = useAppSelector(state => state.landing.randomTitle)
 
 	const onClickLogout = () => {
 		dispatch(logout())
+	}
+
+	const onClickRandomAnime = () => {
+		dispatch(setRandomTitle())
 	}
 
 	const Account = (
@@ -39,6 +45,8 @@ export const Header: FC = () => {
 			</Menu.Item>
 		</Menu>
 	)
+
+	const randomAnimeName = decodeAnimeName(randomTitle?.names?.en)
 
 	return (
 		<header className={styles.header}>
@@ -60,8 +68,10 @@ export const Header: FC = () => {
 										<Link to={route.route}>{route.name}</Link>
 									</Menu.Item>
 								))}
-							<Menu.Item key='random-title'>
-								<Link to='/'>Рандомный тайтл</Link>
+							<Menu.Item key='random-title' onClick={onClickRandomAnime}>
+								<Link to={`/anime-library/${randomAnimeName}`}>
+									Рандомный тайтл
+								</Link>
 							</Menu.Item>
 						</Menu>
 					</div>

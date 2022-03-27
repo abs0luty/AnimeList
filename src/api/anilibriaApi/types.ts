@@ -33,9 +33,19 @@ export interface ChosenOne {
 export interface Title {
 	id: number
 	code: string
-	names: string[]
+	names: {
+		ru: string
+		en: string
+	}
 	series: string
-	poster: string
+	posters: {
+		original: {
+			url: string
+		}
+		mini: {
+			url: string
+		}
+	}
 	favorite: ChosenOne
 	last: number
 	moon: string

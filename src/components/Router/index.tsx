@@ -40,7 +40,26 @@ export const Router: React.FC<RouterProps> = ({ children }) => {
 				{otherRoutes.map(route => {
 					const { component: Component } = route
 					return (
-						<Route key={route.key} path={route.route} element={<Component />} />
+						<>
+							{route.children ? (
+								<Route
+									key={route.key}
+									path={route.route}
+									element={<Component />}
+								>
+									<Route
+										path={route.children.route}
+										element={<route.children.component />}
+									/>
+								</Route>
+							) : (
+								<Route
+									key={route.key}
+									path={route.route}
+									element={<Component />}
+								/>
+							)}
+						</>
 					)
 				})}
 			</Routes>

@@ -6,7 +6,8 @@ import {
 	loginThunk,
 	forgotPasswordThunk,
 	registrationThunk,
-	authCheckThunk
+	authCheckThunk,
+	getUpdatesThunk
 } from './landingThunks'
 
 const landingSlice = createSlice({
@@ -15,6 +16,8 @@ const landingSlice = createSlice({
 		userId: '',
 		isAuth: false,
 		titleList: [] as Title[],
+		randomTitle: {} as Title,
+		autoCompleteOptions: [] as Array<{ value: string }>,
 		isAdult: false,
 		authError: false,
 		registrationError: false as true | 'success',
@@ -28,6 +31,16 @@ const landingSlice = createSlice({
 			state.isAuth = false
 			state.isAdult = false
 			localStorage.setItem('token', '')
+		},
+		setRandomTitle(state) {
+			const randomIdx = Math.floor(Math.random() * state.titleList.length)
+			state.randomTitle = state.titleList[randomIdx]
+		},
+		setAutoCompleteOption(
+			state,
+			{ payload }: PayloadAction<Array<{ value: string }>>
+		) {
+			state.autoCompleteOptions = payload
 		}
 	},
 	extraReducers: builder => {
@@ -61,8 +74,14 @@ const landingSlice = createSlice({
 			.addCase(forgotPasswordThunk.rejected, state => {
 				state.forgotPasswordError = true
 			})
+			.addCase(getUpdatesThunk.fulfilled, (state, { payload }) => {
+				const randomIdx = Math.floor(Math.random() * state.titleList.length)
+				state.titleList = payload
+				state.randomTitle = payload[randomIdx]
+			})
 	}
 })
 
 export const { reducer: landingReducer } = landingSlice
-export const { setAdult, logout } = landingSlice.actions
+export const { setAdult, logout, setRandomTitle, setAutoCompleteOption } =
+	landingSlice.actions
