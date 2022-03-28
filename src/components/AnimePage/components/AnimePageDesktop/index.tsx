@@ -1,15 +1,13 @@
 import React, { FC } from 'react'
 import { Typography } from 'antd'
-// import { useQuery } from 'react-query'
 
 import styles from './styles.module.scss'
 import { ANILIBRIA_URI } from 'dotenv'
-// import { anilibriaApi } from 'api'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { Description } from '../Description'
 import { DescriptionMobile } from '../DescriptionMobile'
 import { AddToList } from 'components/AddToList'
-// import { Player } from './components/Player'
+import { Player } from '../Player'
 import { Status } from 'api/myApi/anime/types'
 import { Title } from '../../../../api/anilibriaApi/types'
 
@@ -82,9 +80,9 @@ export const AnimePageDesktop: FC<AnimePageDesktopProps> = ({
 						</>
 					)}
 				</div>
-				{/*<div>*/}
-				{/*	<Player title={titleMain} />*/}
-				{/*</div>*/}
+				<div>
+					<Player titleMain={titleMain} />
+				</div>
 			</div>
 		</div>
 	)

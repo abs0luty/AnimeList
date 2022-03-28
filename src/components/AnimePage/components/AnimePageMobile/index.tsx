@@ -7,8 +7,8 @@ import { useWindowSize } from 'hooks/useWindowSize'
 import { DescriptionMobile } from '../DescriptionMobile'
 import { AddToList } from 'components/AddToList'
 import { Status } from 'api/myApi/anime/types'
-import { Title } from '../../../../api/anilibriaApi/types'
-// import { Player } from '../Player'
+import { Title } from 'api/anilibriaApi/types'
+import { Player } from '../Player'
 
 interface AnimePageMobileProps {
 	titleMain: Title
@@ -39,8 +39,8 @@ export const AnimePageMobile: FC<AnimePageMobileProps> = ({
 	}
 
 	const background = randomHeaderBackground()
-	// const heightAdaptive =
-	// 	width <= 612 ? (width <= 440 ? (width <= 346 ? 120 : 150) : 200) : 300
+	const heightAdaptive =
+		width <= 612 ? (width <= 440 ? (width <= 346 ? 120 : 150) : 200) : 300
 
 	return (
 		<div className={styles.wrapper}>
@@ -96,9 +96,13 @@ export const AnimePageMobile: FC<AnimePageMobileProps> = ({
 			<DescriptionMobile titleMain={titleMain} status={currentStatus} />
 			<hr className={styles.blueLine} />
 			<div>{titleMain?.description}</div>
-			{/*<div>*/}
-			{/*	<Player anime={titleMain} width={width - 80} height={heightAdaptive} />*/}
-			{/*</div>*/}
+			<div className={styles.player}>
+				<Player
+					titleMain={titleMain}
+					width={width - 80}
+					height={heightAdaptive}
+				/>
+			</div>
 		</div>
 	)
 }

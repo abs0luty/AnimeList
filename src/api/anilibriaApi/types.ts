@@ -10,14 +10,22 @@ export interface Torrent {
 	url: string
 }
 
+export interface SeriesUsually {
+	serie: number
+	hls: {
+		hd: string
+		sd: string
+	}
+}
+
 export interface Series {
-	id: number
-	title: string
-	sd: string
-	hd: string
-	fullhd: string
-	srcSd: string
-	srcHd: string
+	[s: string]: {
+		serie: number
+		hls: {
+			hd: string
+			sd: string
+		}
+	}
 }
 
 export interface Block {
@@ -73,6 +81,9 @@ export interface Title {
 	day: number
 	description: string
 	blocked: Block
-	playlist?: Series[]
+	player?: {
+		host: string
+		playlist: Series
+	}
 	torrents?: Torrent[]
 }

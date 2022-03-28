@@ -13,7 +13,6 @@ export const DefaultLayout: FC<DefaultLayoutProps> = ({ children }) => {
 	const { width } = useWindowSize()
 	const isMobile = width <= 768
 
-
 	return (
 		<div className={styles.wrapper}>
 			<div
