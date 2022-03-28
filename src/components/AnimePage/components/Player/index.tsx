@@ -13,7 +13,12 @@ interface PlayerProps {
 }
 
 export const Player: FC<PlayerProps> = ({ titleMain, width, height }) => {
-	if (!localStorage.getItem(titleMain?.names?.ru)) {
+	const existTitleName = localStorage.getItem(titleMain?.names?.ru)
+	const oldFormatDate: string = JSON.parse(
+		JSON.stringify(localStorage.getItem(titleMain?.names?.ru))
+	)
+	// Проверяем есть ли такой ключ в localStorage или соответствуют ли данные в localStorage старому формату
+	if (!existTitleName || !oldFormatDate.includes('{')) {
 		const localStorageAnimeData = JSON.stringify({ series: 0, timing: 0 })
 		localStorage.setItem(titleMain?.names?.ru, localStorageAnimeData)
 	}
@@ -62,7 +67,7 @@ export const Player: FC<PlayerProps> = ({ titleMain, width, height }) => {
 			series: selectedSeries,
 			timing: value.playedSeconds
 		})
-		localStorage.setItem(titleMain.names.ru, localStorageAnimeData)
+		localStorage.setItem(titleMain?.names?.ru, localStorageAnimeData)
 	}
 
 	const onStartPlayer = () => {
