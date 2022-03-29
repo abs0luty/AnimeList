@@ -48,7 +48,7 @@ export const AnimePage: FC = () => {
 		return () => {
 			setCurrentStatus(-1)
 		}
-	}, [animeList, titleName])
+	}, [animeList, titleName, searchTitle])
 
 	return isMobile ? (
 		<AnimePageMobile
