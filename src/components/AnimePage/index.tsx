@@ -35,11 +35,15 @@ export const AnimePage: FC = () => {
 		const currentStatusForState = animeList.filter(
 			anime => anime.name.trim() === titleName
 		)[0]?.status
-		setCurrentStatus(
-			((currentStatusForState as Status | -1) !== -1
-				? currentStatusForState
-				: -1) || -1
-		)
+		if (
+			((currentStatusForState as Status | -1) !== -1 &&
+				currentStatusForState) ||
+			currentStatusForState === 0
+		) {
+			setCurrentStatus(currentStatusForState)
+		} else {
+			setCurrentStatus(-1)
+		}
 
 		return () => {
 			setCurrentStatus(-1)
