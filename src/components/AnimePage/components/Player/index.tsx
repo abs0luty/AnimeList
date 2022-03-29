@@ -50,10 +50,10 @@ export const Player: FC<PlayerProps> = ({ titleMain, width, height }) => {
 		setPlayListSeriesArray(arr)
 	}, [titleMain?.player?.playlist, titleMain?.names?.ru])
 
-	const onChangeSelect = (value: string) => {
-		setSelectedSeries(+value)
+	const onChangeSelect = (value: number) => {
+		setSelectedSeries(value)
 		setTimingFromLocalStorage(0)
-		const localStorageAnimeData = JSON.stringify({ series: +value, timing: 0 })
+		const localStorageAnimeData = JSON.stringify({ series: value, timing: 0 })
 		localStorage.setItem(titleMain?.names?.ru, localStorageAnimeData)
 	}
 	const onChangeResolution = (value: Resolutions) => {
@@ -88,10 +88,7 @@ export const Player: FC<PlayerProps> = ({ titleMain, width, height }) => {
 					<Select.Option value='hd'>720p</Select.Option>
 					<Select.Option value='sd'>480p</Select.Option>
 				</Select>
-				<Select
-					defaultValue={`${+selectedSeries + 1} серия`}
-					onChange={onChangeSelect}
-				>
+				<Select value={selectedSeries} onChange={onChangeSelect}>
 					{formattedPlaylistSeriesArray.map((elem, idx) => (
 						<Select.Option value={idx} key={idx}>
 							{idx + 1} серия

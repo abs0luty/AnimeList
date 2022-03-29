@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
-import { APP_MODE } from 'dotenv'
 import { store } from 'store'
 import { App } from 'app'
 import './index.css'
@@ -23,9 +22,7 @@ ReactDOM.render(
 		<Provider store={store}>
 			<QueryClientProvider client={queryClient}>
 				<App />
-				{APP_MODE === 'development' && (
-					<ReactQueryDevtools initialIsOpen={false} />
-				)}
+				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>
 		</Provider>
 	</BrowserRouter>,
