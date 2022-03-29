@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 
 import styles from './styles.module.scss'
 import { ANILIBRIA_URI } from 'dotenv'
-import { decodeAnimeName } from 'helpers/decodeAnimeName'
+import { encodeAnimeName } from 'helpers/encodeAnimeName'
 import { AddToList } from 'components/AddToList'
 import { Title } from 'api/anilibriaApi/types'
 
@@ -15,7 +15,7 @@ interface AnimeLibraryItemProps {
 export const AnimeLibraryItem: FC<AnimeLibraryItemProps> = ({ title }) => {
 	const maxDescriptionLenght = 200
 
-	const animeName = decodeAnimeName(title.names.en)
+	const animeName = encodeAnimeName(title.names.ru)
 
 	return (
 		<div

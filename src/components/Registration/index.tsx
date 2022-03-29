@@ -60,7 +60,7 @@ export const Registration: React.FC = () => {
 				]}
 				style={{ margin: '0 0 10px 0' }}
 			>
-				<Input placeholder='Электронная почта' />
+				<Input type='email' placeholder='Электронная почта' />
 			</Form.Item>
 			<Form.Item
 				name='password'

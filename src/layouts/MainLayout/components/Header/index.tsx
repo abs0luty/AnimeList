@@ -9,7 +9,7 @@ import { routes } from 'components/Router/routes'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { useAppSelector } from 'hooks/useAppSelector'
 import { logout, setRandomTitle } from 'store/reducers/landingReducer'
-import { decodeAnimeName } from 'helpers/decodeAnimeName'
+import { encodeAnimeName } from 'helpers/encodeAnimeName'
 
 export const Header: FC = () => {
 	const { width } = useWindowSize()
@@ -35,7 +35,7 @@ export const Header: FC = () => {
 		</Menu>
 	)
 
-	const randomAnimeName = decodeAnimeName(randomTitle?.names?.en)
+	const randomAnimeName = encodeAnimeName(randomTitle?.names?.ru)
 
 	return (
 		<header className={styles.header}>

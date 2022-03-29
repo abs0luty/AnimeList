@@ -9,7 +9,7 @@ import { useToggle } from 'hooks/useToggle'
 import { NavLink } from 'react-router-dom'
 import { useAppSelector } from 'hooks/useAppSelector'
 import { logout, setRandomTitle } from 'store/reducers/landingReducer'
-import { decodeAnimeName } from 'helpers/decodeAnimeName'
+import { encodeAnimeName } from 'helpers/encodeAnimeName'
 
 export const Hamburger: FC = () => {
 	const { value: opened, setValue: setOpened } = useToggle()
@@ -28,7 +28,7 @@ export const Hamburger: FC = () => {
 		setOpened()
 	}
 
-	const randomAnimeName = decodeAnimeName(randomTitle?.names?.en)
+	const randomAnimeName = encodeAnimeName(randomTitle?.names?.ru)
 
 	const closeButton = (
 		<div

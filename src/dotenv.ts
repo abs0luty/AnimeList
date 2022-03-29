@@ -1,4 +1,4 @@
-export const APP_MODE: 'development' | 'production' = 'production'
+export const APP_MODE: 'development' | 'production' = 'development'
 
 export const API_URI = 'https://anime-list-backend.herokuapp.com'
 

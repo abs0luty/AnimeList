@@ -8,7 +8,7 @@ import { successMessage } from 'helpers/messages'
 import { FC } from 'react'
 import { useAppSelector } from 'hooks/useAppSelector'
 import { Anime, Status } from 'api/myApi/anime/types'
-import { decodeAnimeName } from 'helpers/decodeAnimeName'
+import { encodeAnimeName } from 'helpers/encodeAnimeName'
 import {
 	editStatusAnimeThunk,
 	removeAnimeThunk
@@ -60,7 +60,7 @@ export const Table: FC<TableProps> = ({ setSelectedAnime }) => {
 				return -1
 			},
 			render: (name: string) => {
-				const animeName = decodeAnimeName(name)
+				const animeName = encodeAnimeName(name)
 				return (
 					<>
 						{titleList.some(title => title.names.ru === name) ? (

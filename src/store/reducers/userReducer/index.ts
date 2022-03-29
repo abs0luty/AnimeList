@@ -77,7 +77,7 @@ const userSlice = createSlice({
 				// -- animeListSort --
 				const newAnimeListSort = JSON.parse(JSON.stringify(state.animeListSort))
 
-				const animeSortForEditIndex = state.animeList.findIndex(
+				const animeSortForEditIndex = state.animeListSort.findIndex(
 					anime => anime._id === payload.id
 				)
 				newAnimeListSort[animeSortForEditIndex].status = payload.anime.status

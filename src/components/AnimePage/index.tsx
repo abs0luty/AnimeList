@@ -5,6 +5,7 @@ import { useQuery } from 'react-query'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { AnimePageMobile } from './components/AnimePageMobile'
 import { AnimePageDesktop } from './components/AnimePageDesktop'
+import { decodeAnimeName } from 'helpers/decodeAnimeName'
 import { useAppSelector } from 'hooks/useAppSelector'
 import { Status } from 'api/myApi/anime/types'
 import { anilibriaApi } from 'api'
@@ -14,7 +15,7 @@ export const AnimePage: FC = () => {
 	const { width } = useWindowSize()
 	const isMobile = width <= 768
 
-	const { titleName } = useParams()
+	const titleName = decodeAnimeName(useParams().titleName as string)
 
 	const animeList = useAppSelector(state => state.user.animeList)
 	const searchTitle = useAppSelector(
@@ -48,7 +49,7 @@ export const AnimePage: FC = () => {
 		return () => {
 			setCurrentStatus(-1)
 		}
-	}, [animeList, titleName, searchTitle])
+	}, [animeList, titleName])
 
 	return isMobile ? (
 		<AnimePageMobile
